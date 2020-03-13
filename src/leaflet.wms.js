@@ -337,8 +337,12 @@ wms.Overlay = L.Layer.extend({
     },
 
     'setParams': function(params) {
-        L.extend(this.wmsParams, params);
-        this.update();
+        var newParams = L.extend({}, this.wmsParams, params);
+        // Only update params if something has changed or we don't have underscorejs.
+        if (!(_ && _.isEqual(newParams, this.wmsParams))) {
+          this.wmsParams = newParams;
+          this.update();
+        }
     },
 
     'getAttribution': function() {
