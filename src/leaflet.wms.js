@@ -503,9 +503,16 @@ wms.Overlay = L.Layer.extend({
     },
 
     'getImageUrl': function() {
-        var uppercase = this.options.uppercase || false;
-        var pstr = L.Util.getParamString(this.wmsParams, this._url, uppercase);
-        return this._url + pstr;
+        // time=TBD signals that we shouldn't waste a GetMap request on a layer
+        // whose time hasn't been explicitly set
+        if (this.wmsParams.time == 'TBD') {
+            return this.onErrorImage;
+        }
+        else {
+            var uppercase = this.options.uppercase || false;
+            var pstr = L.Util.getParamString(this.wmsParams, this._url, uppercase);
+            return this._url + pstr;
+        }
     }
 });
 
