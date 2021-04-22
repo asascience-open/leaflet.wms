@@ -386,9 +386,6 @@ wms.Overlay = L.Layer.extend({
             return;
         }
 
-        // Image is starting the loading process.  Fire a callback.
-        this.onLoadStart && this.onLoadStart();
-
         // Determine image URL and whether it has changed since last update
         this.updateWmsParams();
         var url = this.getImageUrl();
@@ -396,6 +393,9 @@ wms.Overlay = L.Layer.extend({
             return;
         }
         this._currentUrl = url;
+
+        // Image is starting the loading process.  Fire a callback.
+        this.onLoadStart && this.onLoadStart();
 
         // Add the pane option if defined.
         var options = {'opacity': 0};
